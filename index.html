@@ -5,120 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Adeola Ademilua — Portfolio</title>
   <meta name="description" content="Portfolio of Adeola Ademilua — frontend dev, student, and creative technologist."/>
-  <style>
-    :root{
-      --bg-1:#eaf6ff; --bg-2:#f3f9ff;
-      --blue-500:#0b66ff; --blue-600:#0a5ae6; --navy:#071631;
-      --neon-1: #00d4ff; --neon-2:#7b61ff;
-      --glass: rgba(255,255,255,0.6);
-      --muted:#5f6e85;
-      --card-radius:16px;
-      --shadow: 0 10px 30px rgba(9,20,40,0.10);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;background: radial-gradient(1200px 600px at 10% 10%, rgba(11,102,255,0.06), transparent 10%), linear-gradient(180deg,var(--bg-1),var(--bg-2));
-      color:var(--navy); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-    }
-
-    /* layout */
-    .container{max-width:1100px;margin:0 auto;padding:28px}
-    header{position:sticky;top:0;background:rgba(255,255,255,0.55);backdrop-filter:blur(6px);border-bottom:1px solid rgba(11,102,255,0.06);z-index:40}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:46px;height:46px;border-radius:10px;display:grid;place-items:center;color:white;font-weight:800;
-      background:linear-gradient(135deg,var(--blue-500),var(--blue-600));box-shadow: 0 8px 26px rgba(11,102,255,0.16)
-    }
-    nav a{margin-left:16px;text-decoration:none;color:var(--navy);font-weight:600}
-
-    /* hero */
-    .hero{
-      display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;padding:44px 0;
-    }
-    .hero-card{
-      padding:28px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.95),#fff);box-shadow:var(--shadow);position:relative;overflow:hidden;
-    }
-    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--neon-1),var(--neon-2));color:white;font-weight:700;font-size:12px}
-    h1{margin:16px 0 6px;font-size:32px;line-height:1.02;background:linear-gradient(90deg,var(--navy),var(--blue-500));-webkit-background-clip:text;color:transparent}
-    .lead{color:var(--muted);margin-bottom:18px}
-    .hero-ctas{display:flex;gap:12px;align-items:center}
-    .btn{
-      border:0;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
-      background:linear-gradient(90deg,var(--blue-500),var(--blue-600));color:#fff;box-shadow:0 12px 30px rgba(11,102,255,0.14);
-      transition:transform .14s ease,box-shadow .14s ease;
-    }
-    .btn:active{transform:translateY(1px)}
-    .ghost{background:transparent;border:1px solid rgba(9,30,80,0.06);color:var(--navy);padding:10px 14px;border-radius:10px;font-weight:700}
-    .micro{font-size:13px;color:var(--muted);margin-top:10px}
-
-    /* animated name highlight */
-    .name-highlight{
-      display:inline-block;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,rgba(11,102,255,0.09),rgba(123,97,255,0.04));
-      box-shadow: 0 6px 20px rgba(11,102,255,0.04);
-    }
-
-    /* right column card */
-    .card-right{padding:18px;border-radius:14px;background:linear-gradient(135deg,#fbfdff,#fff);box-shadow:var(--shadow)}
-    .profile{
-      display:flex;gap:14px;align-items:center;margin-bottom:12px;
-    }
-    .avatar{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--neon-2),var(--neon-1));display:grid;place-items:center;font-weight:800;color:white;font-size:20px}
-    .role{font-weight:700}
-    .stat-grid{display:flex;gap:10px;margin-top:12px}
-    .stat{background:linear-gradient(180deg,white,#fbfdff);padding:10px;border-radius:10px;text-align:center;flex:1;border:1px solid rgba(11,102,255,0.04)}
-
-    /* sections */
-    section{padding:36px 0}
-    .section-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .muted{color:var(--muted)}
-    .skills{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .skill{min-width:110px;padding:12px;border-radius:12px;background:linear-gradient(90deg,#fff,#fbfdff);border:1px solid rgba(11,102,255,0.04);display:flex;gap:10px;align-items:center;box-shadow:0 8px 22px rgba(11,102,255,0.03);transition:transform .18s}
-    .skill:hover{transform:translateY(-6px)}
-    .badge{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:white;background:linear-gradient(135deg,var(--neon-1),var(--neon-2))}
-
-    /* projects */
-    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-    .project{padding:18px;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid rgba(11,102,255,0.04);box-shadow:0 8px 22px rgba(11,102,255,0.03);transition:transform .18s}
-    .project:hover{transform:translateY(-8px)}
-    .proj-tags{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-
-    /* contact */
-    .contact-card{padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-
-    /* footer */
-    footer{padding:28px 0;color:var(--muted);font-size:14px;text-align:center}
-
-    /* responsive */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;gap:18px}
-      .projects-grid{grid-template-columns:repeat(2,1fr)}
-      nav a{display:none}
-    }
-    @media (max-width:620px){
-      .projects-grid{grid-template-columns:1fr}
-      .skill{min-width:48%}
-    }
-
-    /* small micro animations */
-    .glow {
-      position:relative;
-    }
-    .glow::after{
-      content:"";position:absolute;inset:-40px;background:radial-gradient(circle at 20% 10%, rgba(0,212,255,0.08), transparent 10%), radial-gradient(circle at 80% 80%, rgba(123,97,255,0.06), transparent 10%);z-index:-1;filter:blur(18px);opacity:0;transition:opacity .3s;
-    }
-    .glow:hover::after{opacity:1}
-    .floaty{animation:floaty 6s ease-in-out infinite}
-    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-
-    /* typewriter */
-    .typewriter{display:inline-block;color:var(--blue-600);font-weight:800}
-    .cursor{display:inline-block;width:10px;height:22px;background:var(--blue-600);margin-left:6px;vertical-align:middle;animation:blink 1s step-end infinite}
-    @keyframes blink{50%{opacity:0}}
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
@@ -126,19 +13,23 @@
       <div class="brand">
         <div class="logo" aria-hidden="true">AA</div>
         <div>
-          <div style="font-weight:800">Adeola Ademilua</div>
-          <div style="font-size:13px;color:var(--muted)">Frontend • Student • Creative dev</div>
+          <div class="name">Adeola Ademilua</div>
+          <div class="subtitle">Frontend • Student • Creative dev</div>
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:12px">
-        <nav aria-label="Quick links">
+      <div class="right">
+        <nav aria-label="Quick links" class="navlinks">
           <a href="#about">About</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </nav>
-        <a href="#contact" class="ghost" style="margin-left:8px">Let’s Connect</a>
+
+        <div class="controls">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode">🌗</button>
+          <button id="cvBtn" class="ghost">Download CV</button>
+        </div>
       </div>
     </div>
   </header>
@@ -149,26 +40,18 @@
       <div class="hero-card">
         <span class="eyebrow">Student + Dev</span>
         <h1 id="hero-title">Hi — I’m <span class="name-highlight">Adeola Ademilua</span></h1>
-        <div class="lead">
-          I build playful, practical frontends and tiny AI-powered tools for students. I design interfaces that feel smart and friendly.
-        </div>
+        <div class="lead">I build playful, practical frontends and tiny AI-powered tools for students. I design interfaces that feel smart and friendly.</div>
 
-        <div style="display:flex;gap:12px;align-items:center;margin-top:12px" class="hero-ctas">
-          <button class="btn" id="hireBtn">Hire Me</button>
-          <a class="btn" id="downloadCv" href="#" download="Adeola_Ademilua_CV.pdf" style="background:linear-gradient(90deg,var(--neon-1),var(--neon-2));box-shadow:0 12px 30px rgba(123,97,255,0.12)">Download CV</a>
-          <a class="ghost" href="#projects">See Projects</a>
+        <div class="hero-ctas">
+          <button class="btn primary" id="hireBtn">Hire Me</button>
+          <a class="btn neon" id="downloadCv" href="#" download="Adeola_Ademilua_CV.pdf">Download CV</a>
+          <a class="ghost link" href="#projects">See Projects</a>
         </div>
 
         <div class="micro">
           <span class="muted">Also:</span>
-          <span class="typewriter" id="typewriterText">UI animations • quizzes • student tools</span><span class="cursor" aria-hidden="true"></span>
-        </div>
-
-        <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
-          <div style="display:flex;gap:10px;align-items:center">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L20 7v6c0 5-8 9-8 9s-8-4-8-9V7l8-5z" stroke="#0b66ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div style="font-weight:700">Open to internships</div>
-          </div>
+          <span id="typewriterText" class="typewriter">UI animations • quizzes • student tools</span>
+          <span class="cursor" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -177,163 +60,88 @@
           <div class="avatar">AA</div>
           <div>
             <div class="role">Adeola Ademilua</div>
-            <div class="muted" style="font-size:13px">Frontend Developer • Student</div>
+            <div class="muted small">Frontend Developer • Student</div>
           </div>
         </div>
 
         <div class="stat-grid">
-          <div class="stat">
-            <div style="font-weight:800">5+</div>
-            <div class="muted" style="font-size:13px">Projects</div>
-          </div>
-          <div class="stat">
-            <div style="font-weight:800">React • Django</div>
-            <div class="muted" style="font-size:13px">Stack</div>
-          </div>
+          <div class="stat"><div class="big">5+</div><div class="muted small">Projects</div></div>
+          <div class="stat"><div class="big">React • Django</div><div class="muted small">Stack</div></div>
         </div>
 
-        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-          <a href="#" aria-label="GitHub" style="text-decoration:none;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#fff,#fbfdff);border:1px solid rgba(11,102,255,0.04);font-weight:700">GitHub</a>
-          <a href="#" aria-label="LinkedIn" style="text-decoration:none;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#fff,#fbfdff);border:1px solid rgba(11,102,255,0.04);font-weight:700">LinkedIn</a>
+        <div class="socials">
+          <a id="ghBtn" href="#" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+          <a id="liBtn" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
         </div>
       </aside>
     </section>
 
     <!-- ABOUT -->
-    <section id="about" aria-labelledby="about-title">
+    <section id="about" class="fade-in-up" aria-labelledby="about-title">
       <div class="section-title">
         <h2 id="about-title">About</h2>
         <div class="muted">A little bit about me</div>
       </div>
-      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-top:14px">
-        <div style="flex:1;min-width:280px">
+      <div class="about-grid">
+        <div>
           <p class="muted">I’m a student and frontend developer who enjoys blending playful visuals with clear usability. I focus on projects that help students — quizzes, summarizers, and study tools — and I love turning ideas into interactive experiences.</p>
-          <ul style="margin-top:12px;color:var(--muted)">
+          <ul class="muted">
             <li>Strong: HTML, CSS, JavaScript, React</li>
             <li>Building: small AI study tools & quiz engines</li>
             <li>Passion: learning science & UX for students</li>
           </ul>
         </div>
-        <div style="min-width:220px">
-          <div style="padding:12px;border-radius:12px;background:linear-gradient(135deg,#fff,#fbfdff);box-shadow:var(--shadow)">
-            <div style="font-weight:800">Current Focus</div>
-            <div class="muted" style="margin-top:6px">Designing Alphalearner features & building edtech microtools.</div>
+
+        <div>
+          <div class="card small">
+            <div class="card-title">Current Focus</div>
+            <div class="muted">Designing Alphalearner features & building edtech microtools.</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- SKILLS -->
-    <section id="skills" aria-labelledby="skills-title">
+    <section id="skills" class="fade-in-up" aria-labelledby="skills-title">
       <div class="section-title">
         <h2 id="skills-title">Skills</h2>
         <div class="muted">Tools I use</div>
       </div>
 
-      <div class="skills">
-        <div class="skill glow">
-          <div class="badge">JS</div>
-          <div>
-            <div style="font-weight:800">JavaScript</div>
-            <div class="muted" style="font-size:13px">ES6+, DOM, fetch</div>
-          </div>
-        </div>
-
-        <div class="skill glow">
-          <div class="badge">RE</div>
-          <div>
-            <div style="font-weight:800">React</div>
-            <div class="muted" style="font-size:13px">Hooks • Vite</div>
-          </div>
-        </div>
-
-        <div class="skill glow">
-          <div class="badge">HT</div>
-          <div>
-            <div style="font-weight:800">HTML & CSS</div>
-            <div class="muted" style="font-size:13px">Responsive, animations</div>
-          </div>
-        </div>
-
-        <div class="skill glow">
-          <div class="badge">DJ</div>
-          <div>
-            <div style="font-weight:800">Django</div>
-            <div class="muted" style="font-size:13px">APIs, auth</div>
-          </div>
-        </div>
-
-        <div class="skill glow">
-          <div class="badge">AI</div>
-          <div>
-            <div style="font-weight:800">AI Tools</div>
-            <div class="muted" style="font-size:13px">NLP • Prompting</div>
-          </div>
-        </div>
-      </div>
+      <div class="skills" id="skillsList"></div>
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects" aria-labelledby="projects-title">
+    <section id="projects" class="fade-in-up" aria-labelledby="projects-title">
       <div class="section-title">
         <h2 id="projects-title">Projects</h2>
-        <div class="muted">Selected work</div>
+        <div class="muted">Selected work — loads dynamically below</div>
       </div>
 
-      <div class="projects-grid" role="list">
-        <article class="project" role="listitem">
-          <div style="display:flex;justify-content:space-between;align-items:start">
-            <div style="font-weight:800">AlphaQuiz</div>
-            <div class="muted" style="font-size:12px">React • Node</div>
-          </div>
-          <p class="muted" style="margin-top:8px">Adaptive quiz system with spaced repetition and auto-generated MCQs from notes.</p>
-          <div class="proj-tags">
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(11,102,255,0.06)">education</span>
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(123,97,255,0.06)">ai</span>
-          </div>
-        </article>
-
-        <article class="project" role="listitem">
-          <div style="display:flex;justify-content:space-between;align-items:start">
-            <div style="font-weight:800">NoteSummarizer</div>
-            <div class="muted" style="font-size:12px">Django • Python</div>
-          </div>
-          <p class="muted" style="margin-top:8px">Upload lecture notes and get concise outlines + exam-style questions.</p>
-          <div class="proj-tags">
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(11,102,255,0.06)">nlp</span>
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(123,97,255,0.06)">product</span>
-          </div>
-        </article>
-
-        <article class="project" role="listitem">
-          <div style="display:flex;justify-content:space-between;align-items:start">
-            <div style="font-weight:800">StudyBuddy Widget</div>
-            <div class="muted" style="font-size:12px">Vanilla JS</div>
-          </div>
-          <p class="muted" style="margin-top:8px">Lightweight embeddable widget for timed quizzes and progress to integrate into blogs.</p>
-          <div class="proj-tags">
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(11,102,255,0.06)">widget</span>
-            <span style="font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(123,97,255,0.06)">ui</span>
-          </div>
-        </article>
+      <div class="projects-toolbar">
+        <button id="loadLocal" class="ghost">Load local projects</button>
+        <input id="githubUser" placeholder="GitHub username (optional)" />
+        <button id="fetchGit" class="btn">Fetch from GitHub</button>
       </div>
+
+      <div class="projects-grid" id="projectsGrid" role="list"></div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" aria-labelledby="contact-title">
+    <section id="contact" class="fade-in-up" aria-labelledby="contact-title">
       <div class="section-title">
         <h2 id="contact-title">Contact</h2>
         <div class="muted">Let’s build something</div>
       </div>
 
       <div class="contact-card">
-        <div style="min-width:220px">
-          <div style="font-weight:800">Work with me</div>
-          <div class="muted" style="margin-top:6px">Short internship, freelance frontend work, or collab on edtech projects.</div>
+        <div>
+          <div class="card-title">Work with me</div>
+          <div class="muted">Short internship, freelance frontend work, or collab on edtech projects.</div>
         </div>
 
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <a href="mailto:adeola@example.com?subject=Hey%20Adeola" class="btn">Email me</a>
+        <div class="contact-actions">
+          <a id="emailBtn" class="btn" href="mailto:adeola@example.com?subject=Hey%20Adeola">Email me</a>
           <a href="#" class="ghost">Twitter</a>
           <a href="#" class="ghost">GitHub</a>
           <a href="#" class="ghost">LinkedIn</a>
@@ -341,72 +149,11 @@
       </div>
     </section>
 
-    <footer>
-      <div style="padding:20px 0">
-        <div style="font-weight:800">Adeola Ademilua</div>
-        <div class="muted" style="margin-top:6px">Built with curiosity • © <span id="year"></span></div>
-      </div>
+    <footer class="fade-in-up">
+      <div>Built with curiosity • © <span id="year"></span> • Adeola Ademilua</div>
     </footer>
   </main>
 
-  <script>
-    // year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // simple hire button opens mailto
-    document.getElementById('hireBtn').addEventListener('click', ()=> {
-      window.location.href = 'mailto:adeola@example.com?subject=Opportunity%20to%20work%20together';
-    });
-
-    // typewriter cycling phrases
-    (function typeCycle(){
-      const el = document.getElementById('typewriterText');
-      const phrases = ['UI animations • quizzes • student tools', 'React interfaces • tiny AI helpers', 'clean code • playful UX'];
-      let idx = 0, char = 0, forward = true;
-      function tick(){
-        const current = phrases[idx];
-        if(forward){
-          char++;
-          el.textContent = current.slice(0,char);
-          if(char === current.length){ forward=false; setTimeout(tick,1000); return; }
-        } else {
-          char--;
-          el.textContent = current.slice(0,char);
-          if(char === 0){ forward=true; idx=(idx+1)%phrases.length; }
-        }
-        setTimeout(tick, forward?40:24);
-      }
-      tick();
-    })();
-
-    // smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const href = a.getAttribute('href');
-        if(href === '#') return;
-        if(href.startsWith('#')){
-          e.preventDefault();
-          const id = href.slice(1);
-          const el = document.getElementById(id);
-          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      });
-    });
-
-    // placeholder download CV: create a small PDF blob if user hasn't replaced link
-    const download = document.getElementById('downloadCv');
-    download.addEventListener('click', (e) => {
-      if (download.getAttribute('href') === '#') {
-        e.preventDefault();
-        // generate a tiny text-PDF-like file as placeholder
-        const text = "CV - Adeola Ademilua\\nFrontend Developer / Student\\nReplace this file with your real CV.";
-        const blob = new Blob([text], {type:'application/pdf'});
-        const url = URL.createObjectURL(blob);
-        download.href = url;
-        download.click();
-        setTimeout(()=> URL.revokeObjectURL(url),3000);
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
