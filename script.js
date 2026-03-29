@@ -1,140 +1,213 @@
-// Theme toggle (persist to localStorage)
-const themeToggle = document.getElementById('themeToggle');
-const root = document.documentElement;
-const themeKey = 'aa_theme';
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
-function applyTheme(t){
-  if(t === 'dark'){ root.classList.add('dark'); }
-  else { root.classList.remove('dark'); }
-  localStorage.setItem(themeKey, t);
-  themeToggle.textContent = (t === 'dark' ? '🌞' : '🌗');
+// Custom Cursor Implementation
+const cursorDot = document.createElement("div");
+cursorDot.classList.add("cursor-dot");
+document.body.appendChild(cursorDot);
+
+const cursorOutline = document.createElement("div");
+cursorOutline.classList.add("cursor-outline");
+document.body.appendChild(cursorOutline);
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let outlineX = mouseX;
+let outlineY = mouseY;
+let isMobile = window.innerWidth <= 768;
+
+window.addEventListener("resize", () => {
+  isMobile = window.innerWidth <= 768;
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (isMobile) return;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  // Dot follows immediately
+  cursorDot.style.left = `${mouseX}px`;
+  cursorDot.style.top = `${mouseY}px`;
+});
+
+// Animate outline with delay for smooth trailing effect
+function animateCursor() {
+  if (!isMobile) {
+    let dx = mouseX - outlineX;
+    let dy = mouseY - outlineY;
+
+    outlineX += dx * 0.15;
+    outlineY += dy * 0.15;
+
+    cursorOutline.style.left = `${outlineX}px`;
+    cursorOutline.style.top = `${outlineY}px`;
+  }
+  requestAnimationFrame(animateCursor);
 }
-const stored = localStorage.getItem(themeKey) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-applyTheme(stored);
+animateCursor();
 
-themeToggle.addEventListener('click', () => {
-  const cur = localStorage.getItem(themeKey) === 'dark' ? 'light' : 'dark';
-  applyTheme(cur);
+// Add hover effects for interactable elements to expand the cursor
+function setupHoverEffects() {
+  const interactables = document.querySelectorAll(
+    "a, button, .project-card, .timeline-item, .glass-card, input, textarea",
+  );
+  interactables.forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      if (isMobile) return;
+      cursorDot.style.transform = "translate(-50%, -50%) scale(1.5)";
+      cursorDot.style.backgroundColor = "transparent";
+      cursorDot.style.border = "1px solid var(--color-primary)";
+      cursorOutline.style.transform = "translate(-50%, -50%) scale(1.5)";
+      cursorOutline.style.backgroundColor = "rgba(0, 242, 254, 0.1)";
+      cursorOutline.style.borderColor = "transparent";
+    });
+
+    el.addEventListener("mouseleave", () => {
+      if (isMobile) return;
+      cursorDot.style.transform = "translate(-50%, -50%) scale(1)";
+      cursorDot.style.backgroundColor = "var(--color-primary)";
+      cursorDot.style.border = "none";
+      cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+      cursorOutline.style.backgroundColor = "transparent";
+      cursorOutline.style.borderColor = "rgba(0, 242, 254, 0.5)";
+    });
+  });
+}
+// Run once on load
+setupHoverEffects();
+
+// GSAP Scroll Animations
+window.addEventListener("load", () => {
+  // Hero section elements staggered load
+  gsap.from(".hero-content-anim", {
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.15,
+    ease: "power3.out",
+    delay: 0.2,
+  });
+
+  gsap.from(".hero-badge-anim", {
+    scale: 0.8,
+    opacity: 0,
+    duration: 0.8,
+    ease: "back.out(1.7)",
+    delay: 0.1,
+  });
+
+  // Code block hero load
+  gsap.from(".hero-code-anim", {
+    x: 50,
+    opacity: 0,
+    duration: 1.2,
+    ease: "power3.out",
+    delay: 0.5,
+  });
+
+  // Generic Reveal Up elements
+  const revealElements = document.querySelectorAll(".reveal-up");
+  revealElements.forEach((el, index) => {
+    gsap.fromTo(
+      el,
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      },
+    );
+  });
+
+  // Timeline staggered reveal
+  const timelineItems = document.querySelectorAll(".timeline-item");
+  if (timelineItems.length > 0) {
+    gsap.fromTo(
+      timelineItems,
+      { x: -50, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".timeline-container",
+          start: "top 80%",
+        },
+      },
+    );
+  }
 });
 
-// Year
-document.getElementById('year').textContent = new Date().getFullYear();
+// Mobile Menu Toggle logic
+window.toggleMobileMenu = function () {
+  const menu = document.getElementById("mobileMenu");
+  menu.classList.toggle("hidden");
+  // Animate menu links gracefully
+  if (!menu.classList.contains("hidden")) {
+    gsap.fromTo(
+      "#mobileMenu a",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.1, duration: 0.4, ease: "power2.out" },
+    );
+  }
+};
 
-// Hire button opens mailto
-document.getElementById('hireBtn').addEventListener('click', ()=> {
-  window.location.href = 'mailto:adeola@example.com?subject=Opportunity%20to%20work%20together';
-});
-
-// Tiny placeholder CV generator if user hasn't replaced the link
-document.getElementById('downloadCv').addEventListener('click', (e)=>{
-  const btn = e.currentTarget;
-  if(btn.getAttribute('href') === '#'){
+// Smooth scroll implementation
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
     e.preventDefault();
-    const text = "CV - Adeola Ademilua\nFrontend Developer / Student\nReplace this with your real CV PDF.";
-    const blob = new Blob([text], {type:'application/pdf'});
-    const url = URL.createObjectURL(blob);
-    btn.href = url;
-    setTimeout(()=> URL.revokeObjectURL(url), 4000);
-    btn.click();
-  }
-});
+    const targetAttr = this.getAttribute("href");
+    if (targetAttr === "#") return;
 
-// Typewriter cycle
-(function typeCycle(){
-  const el = document.getElementById('typewriterText');
-  const phrases = ['UI animations • quizzes • student tools', 'React interfaces • tiny AI helpers', 'clean code • playful UX'];
-  let idx = 0, char = 0, forward = true;
-  function tick(){
-    const current = phrases[idx];
-    if(forward){
-      char++;
-      el.textContent = current.slice(0,char);
-      if(char === current.length){ forward=false; setTimeout(tick,1000); return; }
-    } else {
-      char--;
-      el.textContent = current.slice(0,char);
-      if(char === 0){ forward=true; idx=(idx+1)%phrases.length; }
-    }
-    setTimeout(tick, forward?40:24);
-  }
-  tick();
-})();
-
-// Reveal on scroll for .fade-in-up
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      io.unobserve(e.target);
+    const target = document.querySelector(targetAttr);
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      // Close mobile menu if it is currently open
+      document.getElementById("mobileMenu").classList.add("hidden");
     }
   });
-},{threshold:0.12});
-document.querySelectorAll('.fade-in-up').forEach(el=> io.observe(el));
-
-// Populate skills (dynamic)
-const skillsData = [
-  {title:'JavaScript', meta:'ES6+, DOM, fetch', tag:'JS'},
-  {title:'React', meta:'Hooks • Vite', tag:'RE'},
-  {title:'HTML & CSS', meta:'Responsive, animations', tag:'HT'},
-  {title:'Django', meta:'APIs, auth', tag:'DJ'},
-  {title:'AI Tools', meta:'NLP • Prompting', tag:'AI'}
-];
-const skillsList = document.getElementById('skillsList');
-skillsData.forEach(s=>{
-  const div = document.createElement('div');
-  div.className = 'skill glow';
-  div.innerHTML = `<div class="badge">${s.tag}</div><div><div style="font-weight:800">${s.title}</div><div class="muted small">${s.meta}</div></div>`;
-  skillsList.appendChild(div);
 });
 
-// Projects: local data + optional GitHub fetch
-const localProjects = [
-  {title:'AlphaQuiz', stack:'React • Node', desc:'Adaptive quiz system with spaced repetition and auto-generated MCQs from notes.', tags:['education','ai']},
-  {title:'NoteSummarizer', stack:'Django • Python', desc:'Upload lecture notes and get concise outlines + exam-style questions.', tags:['nlp','product']},
-  {title:'StudyBuddy Widget', stack:'Vanilla JS', desc:'Embeddable timed quiz widget for blogs.', tags:['widget','ui']}
-];
+// Active link highlighting on scroll processing
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".nav-link");
 
-const projectsGrid = document.getElementById('projectsGrid');
-function renderProjects(list){
-  projectsGrid.innerHTML = '';
-  list.forEach(p=>{
-    const art = document.createElement('article');
-    art.className = 'project';
-    art.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:start">
-        <div style="font-weight:800">${p.title}</div>
-        <div class="muted small">${p.stack || (p.language||'Project')}</div>
-      </div>
-      <p class="muted" style="margin-top:8px">${p.desc || (p.description||'')}</p>
-      <div class="proj-tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-    `;
-    projectsGrid.appendChild(art);
+window.addEventListener("scroll", () => {
+  let current = "";
+  const scrollY = window.pageYOffset;
+
+  sections.forEach((section) => {
+    const sectionHeight = section.offsetHeight;
+    const sectionTop = section.offsetTop - 150;
+
+    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+      current = section.getAttribute("id");
+    }
   });
-  // add small tag styling
-  document.querySelectorAll('.tag').forEach(t => t.style.cssText = 'font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(11,102,255,0.06);margin-right:6px;display:inline-block;');
+
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+    link.classList.remove("text-primary"); // removing old tailwind class if present
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+      link.classList.add("text-primary");
+    }
+  });
+});
+
+// Year assignment for footer
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
 }
-
-// Load local by default
-renderProjects(localProjects);
-
-// UI handlers for loading
-document.getElementById('loadLocal').addEventListener('click', ()=> renderProjects(localProjects));
-document.getElementById('fetchGit').addEventListener('click', async ()=>{
-  const user = document.getElementById('githubUser').value.trim();
-  if(!user){ alert('Enter a GitHub username'); return; }
-  try{
-    const res = await fetch(`https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=30&sort=pushed`);
-    if(!res.ok) throw new Error('GitHub fetch failed');
-    const repos = await res.json();
-    const filtered = repos.filter(r => !r.fork).slice(0,8).map(r => ({
-      title: r.name,
-      desc: r.description || '',
-      stack: r.language || 'Repo',
-      tags: [r.language || 'repo']
-    }));
-    renderProjects(filtered);
-  }catch(err){
-    console.error(err);
-    alert('Could not fetch GitHub repos. Check username or rate limits.');
-  }
-});
